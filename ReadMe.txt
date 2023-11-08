@@ -33,22 +33,23 @@ BackEnd.js:
       view tables, insert values, etc)
     
 
-    SET UP:
-    To set up this project you will need NodeJS installed on your computer. 
+SET UP:
+To set up this project you will need NodeJS installed on your computer. 
 
-    In the terminal
-    npm install express
-    npm install mysql2
-    npm install ejs
+In the terminal
+npm install express
+npm install mysql2
+npm install ejs
 
-    npm start
+npm start
 
-    Modify the database connection block of code to contain information 
-    specific to your sql database that you have running on your own machine.
-    
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'your password',
-    database: 'your database name',
+In BackEnd.js: Modify the database connection block of code to contain information 
+specific to your sql database that you have running on your own machine.
 
+host: '127.0.0.1',
+user: 'root',
+password: 'your password',
+database: 'your database name',
 
+Make sure to store all the .ejs files in a folder called "views" and 
+the .css file in a folder called "public"
