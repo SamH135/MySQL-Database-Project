@@ -1,0 +1,19 @@
+{
+  "name": "4347-web-interfaces",
+  "version": "1.0.0",
+  "description": "index.html:\r     - Driver/menu for the webpage",
+  "main": "BackEnd.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node BackEnd.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "handlebars": "^4.7.8",
+    "mysql2": "^3.6.3"
+  }
+}
