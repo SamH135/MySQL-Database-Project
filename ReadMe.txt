@@ -3,7 +3,7 @@ index.ejs:
 
 
 ViewInventory.ejs:
-    - Displays all inventory items in a table format, with options to add or delete an item from the database
+    - Displays all inventory items in a table format
 
 
 PlaceOrders.ejs:
