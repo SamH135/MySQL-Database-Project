@@ -32,6 +32,8 @@
 <body>
     <h1>View Inventory</h1>
     
+
+
     <table>
         <tr>
             <th>Product Name</th>
@@ -39,15 +41,16 @@
             <th>Price</th>
             <th>Quantity</th>
         </tr>
-        <tr>
-            <td>Product 1</td>
-            <td>Description 1</td>
-            <td>$10.00</td>
-            <td>100</td>
-        </tr>
+        
+        <% inventoryData.forEach(item => { %>
+            <tr>
+                <td><%= item.ProductName %></td>
+                <td><%= item.PDescription %></td>
+                <td>$<%= item.Price %></td>
+                <td><%= item.Quantity %></td>
+            </tr>
+        <% }); %>
     </table>
-
-
     
     
 
@@ -59,7 +62,7 @@
 
 
     <!-- is this a better approach? -->
-
+    
     <!-- <div class="menu-link">
         <button id="returnToMenuBtn">Return to Menu</button>
     </div> -->

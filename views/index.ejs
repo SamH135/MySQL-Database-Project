@@ -1,16 +1,161 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Inventory Management Menu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column; /* Adjust to column layout */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            width: 400px; /* Adjust the width as needed */
+            padding: 16px;
+            border: 1px solid #ccc; /* Optional: Add a border to the container */
+            border-radius: 10px; /* Add rounded edges */
+            box-sizing: border-box;
+            text-align: center; /* Center the content inside the container */
+        }
+
+        /* Adjust input width and margin to fit inside the container */
+        input[type=text], input[type=password] {
+            width: calc(100% - 20px);
+            margin: 8px 0;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Inventory Management System</h1>
-    <div class="menu">
-        <button onclick="location.href='/view-inventory'">View Inventory</button>
-        <button onclick="location.href='/place-orders'">Place Orders</button>
-        <button onclick="location.href='/update-stock'">Update Stock</button>
-        <button onclick="location.href='/user-management'">User Management</button>
+
+    <h1>Login</h1>
+
+    <div class="container">
+        <form action="/login" method="post" onsubmit="submitForm(event)">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" id="usernameField" required>
+        
+            <label for="psw"><b>Password</b></label>
+            <div class="password-container">
+                <input type="password" placeholder="Enter Password" name="psw" id="passwordField" required>
+                <span class="toggle-password" onclick="togglePassword()">
+                    &#128065; <!-- Unicode for black and white eye -->
+                </span>
+            </div>
+        
+            <button type="submit" onclick="submitForm(event)">Login</button>
+        </form>
+        
+        <script>
+
+            function togglePassword() {
+                const passwordField = document.getElementById("passwordField");
+                const eyeIcon = document.querySelector(".toggle-password");
+        
+                if (passwordField.getAttribute("type") === "password") {
+                    passwordField.setAttribute("type", "text");
+                    eyeIcon.innerHTML = "&#10008;"; // Unicode for X
+                } else {
+                    passwordField.setAttribute("type", "password");
+                    eyeIcon.innerHTML = "&#128065;"; // Unicode for closed eye
+                }
+            }
+            // async function submitForm(event) {
+            //     console.log('entered')
+            //     event.preventDefault(); // Prevent the form from submitting
+        
+            //     const usernameField = document.getElementById("usernameField");
+            //     const passwordField = document.getElementById("passwordField");
+        
+            //     // Get the entered username and password
+            //     const username = usernameField.value;
+            //     const password = passwordField.value;
+        
+            //     // Send a POST request to your server for authentication
+            //     try {
+            //         const response = await fetch('/login', {
+            //             method: 'POST',
+            //             headers: {
+            //                 'Content-Type': 'application/json',
+            //             },
+            //             body: JSON.stringify({ uname: username, psw: password }),
+            //         });
+        
+            //         const data = await response.json();
+        
+            //         if (response.ok) {
+            //             // Handle successful login (redirect or any other action)
+            //             console.log('Login successful:', data);
+            //         } else {
+            //             // Handle failed login (redirect or any other action)
+            //             console.error('Login failed:', data);
+            //         }
+            //     } catch (error) {
+            //         console.error('Error:', error);
+            //     }
+            // }
+            async function submitForm(event) {
+                console.log('entered')
+                event.preventDefault(); // Prevent the form from submitting
+
+                const usernameField = document.getElementById("usernameField");
+                const passwordField = document.getElementById("passwordField");
+
+                // Get the entered username and password
+                const username = usernameField.value;
+                const password = passwordField.value;
+
+                console.log(username)
+                console.log(password)
+
+                // Send a POST request to your server for authentication
+                    fetch('/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ uname: username, psw: password }),
+                    })
+                    .then(response=> response.json())
+                    .then(data => {
+                        if(data.success){
+                            console.log('Logged in')
+                        }
+                        else{
+                            console.log('log in failed')
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error: ', error);
+                    })
+            }
+
+        </script>
+        
+        
     </div>
+
 </body>
 </html>
