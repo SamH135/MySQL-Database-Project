@@ -1,0 +1,62 @@
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 30px 60px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+nav li {
+    list-style: none;
+}
+
+nav li a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 8px;
+}
+
+nav li a:hover{
+    color:aquamarine;
+    text-decoration: none;
+}
+
+
+/* Create a table with alternating row colors */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 6px;
+    background: white;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    transition: background-color 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Hover effect */
+tr:hover td {
+    background-color: #e6e6e6; /* Slightly darken the cell background on hover */
+}

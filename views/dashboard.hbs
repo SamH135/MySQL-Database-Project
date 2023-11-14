@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+    <link rel="stylesheet" href="/styles.css">
+    <title>Menu</title>
+</head>
+<body>
+    <nav>
+       <h4>Inventory Management System</h4>
+        <ul>
+            <li><a href="/inventory">View Inventory</a></li>
+            <li><a href="/updateStock">Update Stock</a></li>
+
+            {{#equal jobTitle "Supervisor"}}
+                <li><a href="/placeOrder">Place Order</a></li>
+            {{/equal}}
+
+            {{#equal jobTitle "Manager"}}
+                <li><a href="/placeOrder">Place Order</a></li>
+                <li><a href="/userManagement">User Management</a></li>
+            {{/equal}}
+
+            
+        </ul>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="jumbotron">
+            <h1 class="display-4">Database Project - Dashboard</h1>
+            <p class="lead">From this page, you can access the various functionalities provided by the Inventory Management System</p>
+            <hr class="my-4">
+            <p>The functionalities available to each user will depend on their job title. E.g. Employees can only view/update the inventory, Supervisors can do that and place orders, Managers can do everything and add users</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+            </p>
+        </div>
+    </div>
+        {{#if message }}
+            <h4 class="alert alert-danger mt-4">{{message}}</h4>
+        {{/if}}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+</body>
+</html>

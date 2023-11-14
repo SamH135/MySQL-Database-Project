@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+    <link rel="stylesheet" href="/styles.css"> <!-- Assuming you have a separate styles.css file -->
+    <title>Inventory</title>
+</head>
+<body>
+    <nav>
+        <h4>Inventory Management System: Inventory</h4>
+        <ul>
+            <li><a href="/dashboard">Home</a></li>
+            <li><a href="/updateStock">Update Stock</a></li>
+
+            {{#equal jobTitle "Supervisor"}}
+                <li><a href="/placeOrder">Place Order</a></li>
+            {{/equal}}
+
+            {{#equal jobTitle "Manager"}}
+                <li><a href="/placeOrder">Place Order</a></li>
+                <li><a href="/userManagement">User Management</a></li>
+            {{/equal}}
+        </ul>
+    </nav>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each inventoryData}}
+                <tr>
+                    <td>{{ProductName}}</td>
+                    <td>{{PDescription}}</td>
+                    <td>${{Price}}</td>
+                    <td>{{Quantity}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{#if message }}
+        <h4 class="alert alert-danger mt-4">{{message}}</h4>
+    {{/if}}
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+</body>
+</html>

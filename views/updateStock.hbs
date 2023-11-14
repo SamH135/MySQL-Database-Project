@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+    <link rel="stylesheet" href="/styles.css"> <!-- Assuming you have a separate styles.css file -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            transition: background-color 0.3s ease; /* Add transition for smooth hover effect */
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Hover effect */
+        tr:hover td {
+            background-color: #e6e6e6; /* Slightly darken the cell background on hover */
+        }
+    </style>
+    <title>Update Stock</title>
+</head>
+<body>
+    <nav>
+        <h4>Inventory Management System: Update Stock</h4>
+        <ul>
+            <li><a href="/dashboard">Home</a></li>
+            <li><a href="/inventory">View Inventory</a></li>
+
+            {{#equal jobTitle "Supervisor"}}
+                <li><a href="/placeOrder">Place Order</a></li>
+            {{/equal}}
+
+            {{#equal jobTitle "Manager"}}
+                <li><a href="/placeOrder">Place Order</a></li>
+                <li><a href="/userManagement">User Management</a></li>
+            {{/equal}}
+        </ul>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <form action="/auth/addUpdatedStock" method="POST">
+
+                    <div class="text-center">
+                        <p style="font-weight: bold;">Modify Product Quantity</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product">Product:</label>
+                        <select class="form-control" id="product" name="product">
+                            {{#each productData }}
+                                <option value="{{ this.ProductID }}:{{ this.PName }}">{{ this.PName }}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="quantity">Change quantity by:</label>
+                        <input type="number" class="form-control" id="quantity" name= "quantity">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit Change</button>
+                </form>
+            </div>
+        </div>    
+    </div>
+
+
+    {{#if message }}
+        <h4 class="alert alert-danger mt-4">{{message}}</h4>
+    {{/if}}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+</body>
+</html>

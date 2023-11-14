@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+    <link rel="stylesheet" href="/styles.css"> <!-- Assuming you have a separate styles.css file -->
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            transition: background-color 0.3s ease; /* Add transition for smooth hover effect */
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Hover effect */
+        tr:hover td {
+            background-color: #e6e6e6; /* Slightly darken the cell background on hover */
+        }
+    </style>
+    <title>Manage Users</title>
+</head>
+<body>
+    <nav>
+        <h4>Inventory Management System: User Management</h4>
+        <ul>
+            <li><a href="/dashboard">Home</a></li>
+            <li><a href="/inventory">View Inventory</a></li>
+
+            {{#equal jobTitle "Supervisor"}}
+                <li><a href="/placeOrder">Place Order</a></li>
+            {{/equal}}
+
+            {{#equal jobTitle "Manager"}}
+                <li><a href="/placeOrder">Place Order</a></li>
+                <li><a href="/userManagement">User Management</a></li>
+            {{/equal}}
+        </ul>
+    </nav>
+
+    <style>
+        .table-header {
+            text-align: center;
+            font-size: 20px; /* Adjust the font size as needed */
+        }
+    </style>
+    
+    <!-- Table to display user information -->
+    <div class="table-header">
+        <caption><strong>Current Users</strong></caption>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Job Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>{{this.UserID}}</td>
+                <td>{{this.FirstName}}</td>
+                <td>{{this.LastName}}</td>
+                <td>{{this.JobTitle}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    
+
+    <div class="container mt-4">
+        <!-- Add User Container -->
+        <div class="card border-primary">
+            <div class="card-body">
+                <form action="/auth/addUser" method="POST">
+                    <div class="text-center">
+                        <p style="font-weight: bold;">Add User</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="userID">ID:</label>
+                        <input type="number" class="form-control" id="userID" name= "userID" placeholder="Enter Unique ID...">
+                    </div>
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title:</label>
+                        <select class="form-control" id="jobTitle" name="jobTitle">
+                            <option value="Manager">Manager</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Employee">Employee</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordConfirm">Confirm Password:</label>
+                        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Remove User Container -->
+        <div class="card mt-3 border-danger">
+            <div class="card-body">
+                <form action="/auth/removeUser" method="POST">
+                    <div class="text-center">
+                        <p style="font-weight: bold;">Remove User</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="userIDRemove">User ID:</label>
+                        <input type="number" class="form-control" id="userIDRemove" name="userIDRemove" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Remove User</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit User Container -->
+        <div class="card mt-3 border-warning">
+            <div class="card-body">
+                <form action="/auth/editUser" method="POST">
+                    <div class="text-center">
+                        <p style="font-weight: bold;">Edit User</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="userIDEdit">User ID:</label>
+                        <input type="number" class="form-control" id="userIDEdit" name="userIDEdit" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobTitleEdit">Job Title:</label>
+                        <select class="form-control" id="jobTitleEdit" name="jobTitleEdit">
+                            <option value="Manager">Manager</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Employee">Employee</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstNameEdit">First Name:</label>
+                        <input type="text" class="form-control" id="firstNameEdit" name="firstNameEdit" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastNameEdit">Last Name:</label>
+                        <input type="text" class="form-control" id="lastNameEdit" name="lastNameEdit" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPasswordEdit">New Password:</label>
+                        <input type="password" class="form-control" id="userPasswordEdit" name="userPasswordEdit">
+                    </div>
+                    <button type="submit" class="btn btn-warning">Edit User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {{#if message }}
+        <h4 class="alert alert-danger mt-4">{{message}}</h4>
+    {{/if}}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+</body>
+</html>
