@@ -49,9 +49,41 @@
     </nav>
 
     <div class="container mt-4">
+
+        <div class="table-header">
+            <caption><strong>Order History</strong></caption>
+        </div>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Quantity</th>
+                    <th>User ID</th>
+                    <th>Product ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orders}}
+                <tr>
+                    <td>{{this.OrderID}}</td>
+                    <td>{{this.OrderDate}}</td>
+                    <td>{{this.Quantity}}</td>
+                    <td>{{this.UserID}}</td>
+                    <td>{{this.ProductID}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div class="container mt-4">
         <div class="card">
             <div class="card-body">
-                <form>
+                <form action="/auth/submitOrder" method="POST">
 
                     <div class="text-center">
                         <p style="font-weight: bold;">Order Product</p>
@@ -60,24 +92,24 @@
                     <div class="form-group">
                         <label for="product">Product:</label>
                         <select class="form-control" id="product" name="product">
-                            {{#each productData }}
-                                <option value="{{ this.ProductID }}:{{ this.PName }}">{{ this.PName }}</option>
+                            {{#each productData}}
+                                <option value="{{this.ProductID}}:{{this.PName}}">{{this.PName}}</option>
                             {{/each}}
                         </select>
                     </div>
 
-                    
                     <div class="form-group">
                         <label for="quantity">Quantity:</label>
                         <input type="number" class="form-control" id="quantity" name="quantity" min="1">
                     </div>
 
-
                     <button type="submit" class="btn btn-primary">Place Order</button>
                 </form>
             </div>
-        </div>    
+        </div>
     </div>
+
+
 
 
     {{#if message }}

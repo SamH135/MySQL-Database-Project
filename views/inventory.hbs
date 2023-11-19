@@ -25,26 +25,32 @@
         </ul>
     </nav>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each inventoryData}}
+    <div class="container mt-4">
+        <div class="table-header">
+            <caption><strong>Current Inventory</strong></caption>
+        </div>
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ProductName}}</td>
-                    <td>{{PDescription}}</td>
-                    <td>${{Price}}</td>
-                    <td>{{Quantity}}</td>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
                 </tr>
-            {{/each}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {{#each inventoryData}}
+                    <tr>
+                        <td>{{ProductName}}</td>
+                        <td>{{PDescription}}</td>
+                        <td>${{Price}}</td>
+                        <td>{{Quantity}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
 
     {{#if message }}
         <h4 class="alert alert-danger mt-4">{{message}}</h4>

@@ -197,27 +197,207 @@ exports.addUpdatedStock = (req, res) => {
 };
 
 
-exports.placeOrder = (req, res) => {
-    const query = 'SELECT ProductID, PName FROM Product';
+// exports.placeOrder = (req, res) => {
+//     const query = 'SELECT ProductID, PName FROM Product';
 
-    db.query(query, (error, results) => {
-        if (error) {
-            console.error('Error fetching products:', error);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//     db.query(query, (error, results) => {
+//         if (error) {
+//             console.error('Error fetching products:', error);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Access user information from the session if needed
+//         const { jobTitle } = req.session;
+
+//         //console.log('Product Data:', results);
+
+//         // Render the updateStock view with the product data
+//         return res.render('placeOrder', { productData: results, jobTitle });
+
+
+//     });
+// };
+
+// // Handle form submission to add orders
+// exports.submitOrder = (req, res) => {
+//     const { product, quantity } = req.body;
+//     const [productID, productName] = product.split(':');
+//     const userID = req.session.userID; // Assuming userID is stored in the session
+
+//     const insertOrderQuery = `
+//         INSERT INTO Orders (OrderDate, Quantity, UserID, ProductID)
+//         VALUES (CURDATE(), ?, ?, ?)`;
+
+//     const orderParams = [quantity, userID, productID];
+
+//     db.query(insertOrderQuery, orderParams, (error, results) => {
+//         if (error) {
+//             console.error('Error inserting order:', error);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         // Redirect back to the placeOrder page after submitting the order
+//         res.redirect('/placeOrder');
+//     });
+// };
+
+// exports.showOrders = (req, res) => {
+//     const getOrders = () => {
+//         return new Promise((resolve, reject) => {
+//             db.query('SELECT * FROM Orders', (error, results) => {
+//                 if (error) {
+//                     reject(error);
+//                 } else {
+//                     resolve(results);
+//                 }
+//             });
+//         });
+//     };
+
+//     getOrders()
+//         .then(orders => {
+//             res.render('PlaceOrder', { orders });
+//         })
+//         .catch(error => {
+//             console.error('Error retrieving orders:', error);
+//             res.status(500).send('Internal Server Error');
+//         });
+// };
+
+// Function to insert a new order into the database
+function insertOrder(orderDate, quantity, userID, productID) {
+    return new Promise((resolve, reject) => {
+        const insertOrderQuery = `
+            INSERT INTO Orders (OrderDate, Quantity, UserID, ProductID)
+            VALUES (?, ?, ?, ?)`;
+
+        const orderParams = [orderDate, quantity, userID, productID];
+
+        db.query(insertOrderQuery, orderParams, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
+// Function to get all orders from the database
+function getOrders() {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM Orders', (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
+// Function to fetch product data
+function getProducts() {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT ProductID, PName FROM Product', (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+
+exports.placeOrder = async (req, res) => {
+    try {
+        // Fetch order data
+        const orders = await getOrders();
+
+        // Fetch product data
+        const productData = await getProducts();
 
         // Access user information from the session if needed
         const { jobTitle } = req.session;
 
-        //console.log('Product Data:', results);
-
-        // Render the updateStock view with the product data
-        return res.render('placeOrder', { productData: results, jobTitle });
-
-
-    });
+        // Render the placeOrder view with the order and product data
+        res.render('placeOrder', { orders, productData, jobTitle });
+    } catch (error) {
+        console.error('Error fetching orders or products:', error);
+        res.status(500).send('Internal Server Error');
+    }
 };
+
+
+exports.submitOrder = async (req, res) => {
+    const { product, quantity } = req.body;
+    const [productID, productName] = product.split(':');
+    const userID = req.session.userID; // Assuming userID is stored in the session
+    const orderDate = new Date().toISOString().slice(0, 10);
+
+    try {
+        // Insert the order into the database
+        await insertOrder(orderDate, quantity, userID, productID);
+
+        // Get the updated list of orders
+        const orders = await getOrders();
+
+        // Render the placeOrder view with the list of orders
+        res.render('placeOrder', { orders });
+    } catch (error) {
+        console.error('Error inserting order:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+exports.showOrders = async (req, res) => {
+    try {
+        // Get the list of orders
+        const orders = await getOrders();
+
+        // Render the placeOrder view with the list of orders
+        res.render('placeOrder', { orders });
+    } catch (error) {
+        console.error('Error retrieving orders:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -229,7 +409,6 @@ function getUsers(){
             if (error) {
                 reject(error);
             } else {
-                console.log('else')
                 resolve(results);
             }
         });
@@ -324,65 +503,6 @@ exports.addUser = async (req, res) => {
 } // end of addUser
 
 
-
-
-
-// exports.removeUser = (req, res) => {
-//     const { userIDRemove } = req.body;
-
-//     // Perform validation as needed
-
-//     const removeUserQuery = 'DELETE FROM User WHERE UserID = ?';
-//     const removeUserParams = [userIDRemove];
-
-//     db.query(removeUserQuery, removeUserParams, (error, results) => {
-//         if (error) {
-//             console.error('Error removing user:', error);
-//             res.status(500).send('Internal Server Error');
-//             return;
-//         }
-
-//         return res.render('userManagement', {
-//             message: 'User removed successfully!'
-//         });
-//     });
-// } // end of removeUser
-
-// exports.editUser = async (req, res) => {
-//     const { userIDEdit, jobTitleEdit, firstNameEdit, lastNameEdit, userPasswordEdit } = req.body;
-//     console.log(req.body);
-
-
-//     try {
-//         const hashedPassword = await bcrypt.hash(userPasswordEdit, 8);
-
-//         const editUserQuery = `
-//             UPDATE User
-//             SET JobTitle = ?, FirstName = ?, LastName = ?, UserPassword = ?
-//             WHERE UserID = ?`;
-
-//         const editUserParams = [jobTitleEdit, firstNameEdit, lastNameEdit, hashedPassword, userIDEdit];
-
-//         db.query(editUserQuery, editUserParams, (error, results) => {
-//             if (error) {
-//                 console.error('Error editing user:', error);
-//                 res.status(500).send('Internal Server Error');
-//                 return;
-//             }
-
-//             return res.render('userManagement', {
-//                 message: 'User edited successfully!'
-//             });
-//         });
-//     } catch (error) {
-//         console.error('Error hashing password:', error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// } // end of editUser
-
-
-
-
 exports.removeUser = async (req, res) => {
     const { userIDRemove } = req.body;
 
@@ -465,4 +585,7 @@ function editUserQuery(userID, jobTitle, firstName, lastName, hashedPassword) {
         });
     });
 }
+
+
+
 

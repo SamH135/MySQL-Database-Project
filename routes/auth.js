@@ -25,6 +25,10 @@ router.post('/removeUser', authController.removeUser )
 
 router.post('/editUser', authController.editUser )
 
+router.post('/submitOrder', authController.submitOrder )
+
+router.post('/showOrders', authController.showOrders )
+
 
 module.exports = router;
 

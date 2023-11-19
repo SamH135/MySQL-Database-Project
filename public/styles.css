@@ -45,6 +45,11 @@ table {
     margin-top: 20px;
 }
 
+.table-header {
+    text-align: center;
+    font-size: 20px; /* Adjust the font size as needed */
+}
+
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
