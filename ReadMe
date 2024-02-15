@@ -91,9 +91,10 @@
 
 
 
-**MySQL Setup**
+**MySQL Setup for Local Host**
 
-1. Open MySQL Workbench:
+1. Download MySQL Workbench 
+   - NOTE: you will need Wampserver to run the server locally hosted if you don't have an online database to connect to 
 
 2. Launch MySQL Workbench on your machine. 
 
