@@ -22,13 +22,12 @@ app.use(session({
 dotenv.config({ path: './.env'});
 
 
-// Create a MySQL connection
+// create database connection
 const db = mysql.createConnection({
-  host: process.env.MYSQL_HOSTNAME,
-  port: process.env.MYSQL_SERVER_PORT,
-  user: process.env.MYSQL_USERNAME,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
 });
 
 const publicDirectory = path.join(__dirname, './public');
